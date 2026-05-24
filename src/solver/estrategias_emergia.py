@@ -5,13 +5,12 @@ class EstrategiaEmergia(ABC):
 
     @abstractmethod
     def aplicar(self, emergia: float, **kwargs) -> float:
-        pass
+        ...
 
     @property
     @abstractmethod
     def nome(self) -> str:
-        pass
-
+        ...
 
 class RegraCoProdutor(EstrategiaEmergia):
 
@@ -21,7 +20,6 @@ class RegraCoProdutor(EstrategiaEmergia):
     @property
     def nome(self) -> str:
         return "Co-produto"
-
 
 class RegraFeedback(EstrategiaEmergia):
 
@@ -34,7 +32,6 @@ class RegraFeedback(EstrategiaEmergia):
     @property
     def nome(self) -> str:
         return f"Feedback (×{self.fator})"
-
 
 class RegraCaminhoMultiplo(EstrategiaEmergia):
 

@@ -5,6 +5,10 @@ CAMINHO_ICONE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets", "scale_br.ico"
 )
 
+_COR_PRIMARIA  = "#1f6aa5"
+_COR_ESCURA    = "#145280"
+_COR_TEXTO     = "#d8e8f5"
+_COR_SUBTEXTO  = "#b8d2e8"
 
 class TelaSplash:
 
@@ -39,8 +43,11 @@ class TelaSplash:
 
     def _construir(self):
         moldura = ctk.CTkFrame(
-            self.janela, corner_radius=12, fg_color="#1f6aa5", border_width=2,
-            border_color="#145280",
+            self.janela,
+            corner_radius=12,
+            fg_color=_COR_PRIMARIA,
+            border_width=2,
+            border_color=_COR_ESCURA,
         )
         moldura.pack(fill="both", expand=True, padx=2, pady=2)
 
@@ -62,15 +69,15 @@ class TelaSplash:
             moldura,
             text="Sistema para Cálculo de Emergia",
             font=ctk.CTkFont(size=15),
-            text_color="#d8e8f5",
+            text_color=_COR_TEXTO,
         ).pack(pady=(4, 0))
 
         ctk.CTkLabel(
             moldura,
             text="baseado em Inventários do Ciclo de Vida",
             font=ctk.CTkFont(size=13),
-            text_color="#b8d2e8",
-        ).pack(pady=(0, 0))
+            text_color=_COR_SUBTEXTO,
+        ).pack()
 
         self.barra = ctk.CTkProgressBar(
             moldura,
@@ -78,7 +85,7 @@ class TelaSplash:
             width=380,
             height=10,
             progress_color="white",
-            fg_color="#145280",
+            fg_color=_COR_ESCURA,
         )
         self.barra.pack(pady=(28, 4))
         self.barra.start()
@@ -87,7 +94,7 @@ class TelaSplash:
             moldura,
             text="Carregando...",
             font=ctk.CTkFont(size=13),
-            text_color="#d8e8f5",
+            text_color=_COR_TEXTO,
         ).pack(pady=(2, 0))
 
     def _aplicar_icone(self):

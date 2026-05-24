@@ -1,0 +1,11 @@
+processo,energia_solar_sej,energia_quimica_sej,biomassa_sej,produto
+Agricultura_Soja,1.50e+15,2.30e+14,8.70e+14,graos_soja
+Agricultura_Milho,1.32e+15,1.98e+14,7.45e+14,graos_milho
+Transporte_Rodoviario,3.20e+14,9.10e+13,0,frete_rodovia
+Transporte_Ferroviario,1.85e+14,4.20e+13,0,frete_ferrovia
+Industria_Alimentos,6.80e+15,1.40e+15,2.10e+14,alimento_processado
+Industria_Textil,5.45e+15,1.12e+15,3.80e+14,tecido
+Tratamento_Agua,2.90e+14,4.50e+13,1.20e+14,agua_tratada
+Tratamento_Esgoto,1.75e+14,3.20e+13,8.90e+13,efluente_tratado
+Energia_Solar,4.20e+13,0,0,eletricidade_solar
+Energia_Biomassa,3.60e+14,8.70e+13,6.40e+14,eletricidade_biomassa

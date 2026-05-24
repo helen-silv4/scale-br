@@ -4,20 +4,8 @@ import pytest
 
 from src.dados.matriz_lci import MatrizLCI
 from src.solver.solver_emergia import SolverEmergia
-from src.solver.estrategias_emergia import RegraCoProdutor, RegraFeedback, RegraCaminhoMultiplo
+from src.solver.estrategias_emergia import RegraCoProdutor
 from src.relatorios.gerador_relatorio import GeradorRelatorio
-
-
-@pytest.fixture
-def csv_padrao(tmp_path):
-    csv = tmp_path / "lci.csv"
-    csv.write_text(
-        "processo,energia_solar_sej,energia_quimica_sej,biomassa_sej,produto\n"
-        "Agricultura,1.50e+15,2.30e+14,8.70e+14,graos\n"
-        "Transporte,3.20e+14,9.10e+13,0,combustivel\n"
-        "Industria,6.80e+15,1.40e+15,2.10e+14,manufaturado\n"
-    )
-    return csv
 
 
 class TestIntegracao:
@@ -25,27 +13,22 @@ class TestIntegracao:
     def test_ti01_fluxo_completo_importacao_calculo_relatorio(
         self, tmp_path, csv_padrao
     ):
-        # Importação
         matriz = MatrizLCI(str(csv_padrao))
         assert matriz.carregar() is True
         assert len(matriz.lista_processos) == 3
 
-        # Cálculo
         solver = SolverEmergia(matriz.obter_matriz(), {})
         resultados = solver.calcular()
         assert len(resultados) == 3
         assert all(v > 0 for v in resultados.values())
 
-        # Geração de relatório
-        caminho_pdf = str(tmp_path / "relatorio_integracao.pdf")
+        caminho_pdf = str(tmp_path / "relatorio_ti01.pdf")
         GeradorRelatorio(resultados, caminho_pdf).gerar()
         assert os.path.exists(caminho_pdf)
         with open(caminho_pdf, "rb") as f:
             assert f.read(4) == b"%PDF"
 
-    def test_ti02_transformadores_modificam_resultado_integrado(
-        self, tmp_path, csv_padrao
-    ):
+    def test_ti02_transformadores_modificam_resultado(self, csv_padrao):
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
         df = matriz.obter_matriz()
@@ -57,12 +40,9 @@ class TestIntegracao:
             solver_sem.calcular()["Agricultura"] * 2.0, rel=1e-3
         )
 
-    def test_ti03_validacao_bloqueia_calculo_com_dados_invalidos(self, tmp_path):
+    def test_ti03_validacao_bloqueia_arquivo_invalido(self, tmp_path):
         csv = tmp_path / "invalido.csv"
-        csv.write_text(
-            "processo,energia_solar_sej\n"
-            "Agricultura,1.50e+15\n"
-        )
+        csv.write_text("processo,energia_solar_sej\nAgricultura,1.50e+15\n")
         with pytest.raises(ValueError, match="Colunas obrigatórias ausentes"):
             MatrizLCI(str(csv)).carregar()
 
@@ -93,28 +73,31 @@ class TestIntegracao:
             resultados_originais.keys()
         )
 
-    def test_ti05_estrategias_injetadas_alteram_calculo(self, tmp_path, csv_padrao):
+    def test_ti05_estrategia_simples_produz_resultado_menor(self, csv_padrao):
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
         df = matriz.obter_matriz()
 
-        solver_simples = SolverEmergia(df, {}, estrategias=[RegraCoProdutor()])
-        resultado_simples = solver_simples.calcular()
-
-        solver_completo = SolverEmergia(df, {})
-        resultado_completo = solver_completo.calcular()
+        resultado_simples  = SolverEmergia(df, {}, estrategias=[RegraCoProdutor()]).calcular()
+        resultado_completo = SolverEmergia(df, {}).calcular()
 
         for processo in resultado_simples:
             assert resultado_completo[processo] >= resultado_simples[processo]
 
-    def test_ti06_relatorio_contem_todos_processos(self, tmp_path, csv_padrao):
+    def test_ti06_relatorio_com_grafico_integrado(self, tmp_path, csv_padrao):
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
-        solver = SolverEmergia(matriz.obter_matriz(), {})
-        resultados = solver.calcular()
+        resultados = SolverEmergia(matriz.obter_matriz(), {}).calcular()
 
-        caminho_pdf = str(tmp_path / "relatorio_completo.pdf")
-        GeradorRelatorio(resultados, caminho_pdf).gerar()
+        caminho_sem = str(tmp_path / "sem_grafico.pdf")
+        caminho_com = str(tmp_path / "com_grafico.pdf")
 
-        assert os.path.getsize(caminho_pdf) > 1024  # PDF com conteúdo real
-        assert len(resultados) == 3
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots()
+        ax.bar(list(resultados.keys()), list(resultados.values()))
+
+        GeradorRelatorio(resultados, caminho_sem).gerar()
+        GeradorRelatorio(resultados, caminho_com, figura=fig).gerar()
+        plt.close(fig)
+
+        assert os.path.getsize(caminho_com) > os.path.getsize(caminho_sem)
