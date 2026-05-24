@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
 from src.dados.matriz_lci import MatrizLCI
+from src.solver.solver_emergia import SolverEmergia
 
 
 ctk.set_appearance_mode("dark")
@@ -193,7 +194,26 @@ class JanelaPrincipal:
         if not self.caminho_arquivo:
             messagebox.showwarning("Atenção", "Selecione um arquivo LCI antes de calcular.")
             return
-        self._exibir_resultado("Cálculo executado com sucesso!\n(integração com SolverEmergia em desenvolvimento)")
+        try:
+            transformadores = {}
+            val1 = self.entrada_transf1.get().strip()
+            val2 = self.entrada_transf2.get().strip()
+
+            if val1:
+                processo1 = self.matriz.lista_processos[0]
+                transformadores[processo1] = float(val1)
+            if val2 and len(self.matriz.lista_processos) > 1:
+                processo2 = self.matriz.lista_processos[1]
+                transformadores[processo2] = float(val2)
+
+            self.solver = SolverEmergia(self.matriz.obter_matriz(), transformadores)
+            self.solver.calcular()
+            self._exibir_resultado(self.solver.exibir_resultados())
+
+        except ValueError:
+            messagebox.showerror("Erro", "Os transformadores devem ser valores numéricos.")
+        except Exception as e:
+            messagebox.showerror("Erro no cálculo", str(e))
 
     def exportar_relatorio(self):
         messagebox.showinfo("Exportação", "Geração de relatório em desenvolvimento.")
