@@ -1,10 +1,8 @@
-# SCALE-BR
+<h1 align="center">SCALE-BR</h1>
 
 **Sistema desktop para cálculo de emergia a partir de Inventários do Ciclo de Vida (LCI).**
 
 O SCALE-BR ajuda a importar matrizes LCI, aplicar regras da álgebra emergética, visualizar os fluxos por processo e gerar relatórios em PDF. A aplicação usa uma interface gráfica em CustomTkinter e foi pensada para deixar o fluxo de análise mais simples, desde a planilha de entrada até a exportação dos resultados.
-
----
 
 ## 🌱 O que o projeto faz
 
@@ -22,7 +20,7 @@ O SCALE-BR ajuda a importar matrizes LCI, aplicar regras da álgebra emergética
   <img alt="gif snake-game" src="assets/preview.gif" width="100%">
 </p>
 
----
+<br>
 
 ## ️️🛠️ Requisitos
 
@@ -30,10 +28,9 @@ O SCALE-BR ajuda a importar matrizes LCI, aplicar regras da álgebra emergética
 - Windows, macOS ou Linux
 - Dependências listadas em [`requirements.txt`](requirements.txt)
 
----
+<br>
 
 ## 🚀 Instalação
-
 Clone o repositório, crie um ambiente virtual e instale as dependências:
 
 ```bash
@@ -59,9 +56,9 @@ Instale os pacotes:
 pip install -r requirements.txt
 ```
 
----
+<br>
 
-## ▶️ Como executar
+## 🎯 Como executar
 
 ```bash
 python main.py
@@ -69,7 +66,7 @@ python main.py
 
 Ao iniciar, a aplicação exibe uma tela de splash e depois abre a janela principal centralizada.
 
----
+<br>
 
 ## ✨ Como usar
 
@@ -88,10 +85,9 @@ Ao iniciar, a aplicação exibe uma tela de splash e depois abre a janela princi
 5. **Limpe o projeto**
    Reinicie a interface sem fechar a aplicação.
 
----
+<br>
 
 ## 📋 Formato da matriz LCI
-
 A matriz deve conter, no mínimo, as colunas abaixo:
 
 | Coluna | Descrição |
@@ -111,10 +107,9 @@ Transporte,3.20e+14,9.10e+13,0,combustivel
 Industria,6.80e+15,1.40e+15,2.10e+14,manufaturado
 Tratamento,2.90e+14,4.50e+13,1.20e+14,agua_tratada
 ```
-
 Arquivo de referência: [`docs/matriz_lci_exemplo.csv`](docs/matriz_lci_exemplo.csv).
 
----
+<br>
 
 ## 🏗️ Estrutura do projeto
 
@@ -122,8 +117,8 @@ Arquivo de referência: [`docs/matriz_lci_exemplo.csv`](docs/matriz_lci_exemplo.
 scale-br/
 ├── main.py                         # Ponto de entrada da aplicação
 ├── assets/
-│   ├── scale_br.ico                # Ícone da aplicação
-│   └── gerar_icone.py              # Script para regenerar o ícone
+│   ├── preview.gif                 # Gif de preview da interface
+│   └── scale_br.ico                # Ícone da aplicação
 ├── docs/
 │   └── matriz_lci_exemplo.csv      # Matriz LCI de exemplo
 ├── src/
@@ -141,7 +136,7 @@ scale-br/
 └── testes/                         # Testes automatizados com pytest
 ```
 
----
+<br>
 
 ## 🧩 Padrões de projeto
 
@@ -151,10 +146,9 @@ scale-br/
 | **Strategy** | `EstrategiaEmergia` e subclasses | Permite trocar regras de cálculo sem alterar o solver |
 | **Command** | `Comando`, `ComandoLimparProjeto` | Encapsula ações da interface e reduz acoplamento |
 
----
+<br>
 
 ## 🧪 Testes
-
 O conjunto de testes cobre validação de dados, regras de cálculo, geração de relatório, integração e desempenho.
 
 ```bash
@@ -164,19 +158,16 @@ pytest
 # Executar com relatório de cobertura
 pytest --cov=src --cov-report=term-missing
 ```
-
 Arquivos principais:
-
 - `test_matriz_lci.py`: validação da matriz LCI.
 - `test_solver_emergia.py`: regras emergéticas e cálculo.
 - `test_gerador_relatorio.py`: geração de PDF.
 - `test_integracao.py`: fluxo completo LCI → Solver → Relatório.
 - `test_desempenho.py`: desempenho com até 100 processos em até 5 segundos.
 
----
+<br>
 
 ## 🛠️ Tecnologias
-
 - **CustomTkinter**: interface gráfica moderna sobre Tk.
 - **pandas**: leitura e manipulação da matriz LCI.
 - **matplotlib**: visualização dos fluxos de emergia.
@@ -184,12 +175,9 @@ Arquivos principais:
 - **Pillow**: manipulação do ícone da aplicação.
 - **pytest**: testes automatizados.
 
----
+<br>
 
 ## 📌 Observações
-
 - O arquivo [`docs/matriz_lci_exemplo.csv`](docs/matriz_lci_exemplo.csv) pode ser usado como base para novas análises.
 - O relatório em PDF é gerado a partir dos resultados calculados na interface.
 - Projetos salvos em JSON preservam arquivo LCI, transformadores e resultados.
-
-
