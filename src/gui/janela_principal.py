@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import filedialog, messagebox
 from src.dados.matriz_lci import MatrizLCI
 from src.solver.solver_emergia import SolverEmergia
+from src.relatorios.gerador_relatorio import GeradorRelatorio
 
 
 ctk.set_appearance_mode("dark")
@@ -216,7 +217,22 @@ class JanelaPrincipal:
             messagebox.showerror("Erro no cálculo", str(e))
 
     def exportar_relatorio(self):
-        messagebox.showinfo("Exportação", "Geração de relatório em desenvolvimento.")
+        if not self.solver or not self.solver.resultados:
+            messagebox.showwarning("Atenção", "Execute o cálculo antes de gerar o relatório.")
+            return
+        try:
+            caminho = filedialog.asksaveasfilename(
+                title="Salvar relatório",
+                defaultextension=".pdf",
+                filetypes=[("PDF", "*.pdf")],
+                initialfile="relatorio_scale_br.pdf"
+            )
+            if caminho:
+                self.relatorio = GeradorRelatorio(self.solver.resultados, caminho)
+                self.relatorio.gerar()
+                messagebox.showinfo("Sucesso", f"Relatório gerado com sucesso!\n{caminho}")
+        except Exception as e:
+            messagebox.showerror("Erro ao gerar relatório", str(e))
 
     def salvar_projeto(self):
         messagebox.showinfo("Salvar", "Funcionalidade em desenvolvimento.")
