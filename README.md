@@ -4,8 +4,6 @@
 
 O SCALE-BR ajuda a importar matrizes LCI, aplicar regras da álgebra emergética, visualizar os fluxos por processo e gerar relatórios em PDF. A aplicação usa uma interface gráfica em CustomTkinter e foi pensada para deixar o fluxo de análise mais simples, desde a planilha de entrada até a exportação dos resultados.
 
----
-
 ## 🌱 O que o projeto faz
 
 - **Importa matrizes LCI** em CSV ou Excel.
@@ -22,15 +20,11 @@ O SCALE-BR ajuda a importar matrizes LCI, aplicar regras da álgebra emergética
   <img alt="gif snake-game" src="assets/preview.gif" width="100%">
 </p>
 
----
-
 ## ️️🛠️ Requisitos
 
 - Python **3.10 ou superior**
 - Windows, macOS ou Linux
 - Dependências listadas em [`requirements.txt`](requirements.txt)
-
----
 
 ## 🚀 Instalação
 
@@ -59,8 +53,6 @@ Instale os pacotes:
 pip install -r requirements.txt
 ```
 
----
-
 ## ▶️ Como executar
 
 ```bash
@@ -68,8 +60,6 @@ python main.py
 ```
 
 Ao iniciar, a aplicação exibe uma tela de splash e depois abre a janela principal centralizada.
-
----
 
 ## ✨ Como usar
 
@@ -88,7 +78,6 @@ Ao iniciar, a aplicação exibe uma tela de splash e depois abre a janela princi
 5. **Limpe o projeto**
    Reinicie a interface sem fechar a aplicação.
 
----
 
 ## 📋 Formato da matriz LCI
 
@@ -141,8 +130,6 @@ scale-br/
 └── testes/                         # Testes automatizados com pytest
 ```
 
----
-
 ## 🧩 Padrões de projeto
 
 | Padrão | Onde aparece | Finalidade |
@@ -150,8 +137,6 @@ scale-br/
 | **Singleton** | `JanelaPrincipal`, `TelaSplash` | Mantém uma única instância das janelas principais |
 | **Strategy** | `EstrategiaEmergia` e subclasses | Permite trocar regras de cálculo sem alterar o solver |
 | **Command** | `Comando`, `ComandoLimparProjeto` | Encapsula ações da interface e reduz acoplamento |
-
----
 
 ## 🧪 Testes
 
@@ -164,7 +149,6 @@ pytest
 # Executar com relatório de cobertura
 pytest --cov=src --cov-report=term-missing
 ```
-
 Arquivos principais:
 
 - `test_matriz_lci.py`: validação da matriz LCI.
@@ -173,7 +157,6 @@ Arquivos principais:
 - `test_integracao.py`: fluxo completo LCI → Solver → Relatório.
 - `test_desempenho.py`: desempenho com até 100 processos em até 5 segundos.
 
----
 
 ## 🛠️ Tecnologias
 
@@ -184,12 +167,9 @@ Arquivos principais:
 - **Pillow**: manipulação do ícone da aplicação.
 - **pytest**: testes automatizados.
 
----
 
 ## 📌 Observações
 
 - O arquivo [`docs/matriz_lci_exemplo.csv`](docs/matriz_lci_exemplo.csv) pode ser usado como base para novas análises.
 - O relatório em PDF é gerado a partir dos resultados calculados na interface.
 - Projetos salvos em JSON preservam arquivo LCI, transformadores e resultados.
-
-
