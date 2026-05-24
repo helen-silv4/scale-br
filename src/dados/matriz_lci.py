@@ -16,7 +16,6 @@ class MatrizLCI:
         self.lista_processos = []
 
     def carregar(self):
-        """Carrega o arquivo CSV ou Excel e armazena os dados."""
         try:
             if self.caminho_arquivo.endswith(".csv"):
                 self.dados_matriz = pd.read_csv(self.caminho_arquivo)
@@ -44,7 +43,6 @@ class MatrizLCI:
         if self.dados_matriz is None:
             raise ValueError("Nenhum dado carregado para validar.")
 
-        # Verifica colunas obrigatórias
         colunas_ausentes = [
             col for col in self.COLUNAS_OBRIGATORIAS
             if col not in self.dados_matriz.columns
@@ -54,7 +52,6 @@ class MatrizLCI:
                 f"Colunas obrigatórias ausentes: {', '.join(colunas_ausentes)}"
             )
 
-        # Verifica valores nulos nas colunas numéricas
         colunas_numericas = [
             "energia_solar_sej",
             "energia_quimica_sej",
@@ -66,11 +63,9 @@ class MatrizLCI:
                     f"A coluna '{coluna}' contém valores nulos."
                 )
 
-        # Verifica se há pelo menos um processo
         if len(self.dados_matriz) == 0:
             raise ValueError("A matriz não contém nenhum processo.")
 
-        # Verifica se os valores numéricos são não negativos
         for coluna in colunas_numericas:
             if (self.dados_matriz[coluna] < 0).any():
                 raise ValueError(
@@ -78,7 +73,6 @@ class MatrizLCI:
                 )
 
     def obter_matriz(self) -> pd.DataFrame:
-        """Retorna a matriz validada como DataFrame."""
         if self.dados_matriz is None:
             raise ValueError(
                 "Matriz não carregada. Execute carregar() primeiro."
@@ -86,7 +80,6 @@ class MatrizLCI:
         return self.dados_matriz
 
     def obter_resumo(self) -> str:
-        """Retorna um resumo textual dos dados carregados."""
         if self.dados_matriz is None:
             return "Nenhum dado carregado."
 

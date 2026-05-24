@@ -9,10 +9,6 @@ from src.solver.estrategias_emergia import (
 
 
 class SolverEmergia:
-    """
-    Padrão GoF: Strategy — as regras da álgebra emergética são injetadas
-    via construtor, permitindo substituição sem modificar esta classe.
-    """
 
     def __init__(
         self,
@@ -23,7 +19,6 @@ class SolverEmergia:
         self.matriz = matriz
         self.transformadores = transformadores
         self.resultados = {}
-        # Estratégias padrão aplicadas sequencialmente; substituíveis por injeção.
         self.estrategias: list[EstrategiaEmergia] = estrategias or [
             RegraCoProdutor(),
             RegraFeedback(),
@@ -31,7 +26,6 @@ class SolverEmergia:
         ]
 
     def calcular(self) -> dict:
-        """Aplica as estratégias sequencialmente a cada processo da matriz."""
         self.resultados = {}
 
         for _, linha in self.matriz.iterrows():
@@ -51,28 +45,22 @@ class SolverEmergia:
 
         return self.resultados
 
-    # ── Métodos legados mantidos para compatibilidade com os testes existentes ──
-
     def aplicar_regra_coproduto(self, emergia: float) -> float:
-        """Regra dos co-produtos — delega à estratégia RegraCoProdutor."""
         return RegraCoProdutor().aplicar(emergia)
 
     def aplicar_regra_feedback(
         self, emergia: float, fator_feedback: float = 1.05
     ) -> float:
-        """Regra do feedback — delega à estratégia RegraFeedback."""
         return RegraFeedback(fator=fator_feedback).aplicar(emergia)
 
     def aplicar_caminho_multiplo(
         self, emergia_feedback: float, emergia_base: float
     ) -> float:
-        """Caminhos múltiplos — delega à estratégia RegraCaminhoMultiplo."""
         return RegraCaminhoMultiplo().aplicar(
             emergia_feedback, emergia_base=emergia_base
         )
 
     def exibir_resultados(self) -> str:
-        """Formata os resultados para exibição na interface gráfica."""
         if not self.resultados:
             return "Nenhum resultado calculado. Execute calcular() primeiro."
 

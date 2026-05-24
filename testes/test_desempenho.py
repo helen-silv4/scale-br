@@ -1,7 +1,3 @@
-"""
-Testes de desempenho — Seção 8.4 do rascunho SCALE-BR.
-Validam o requisito RNF01: processar até 100 processos em no máximo 5 segundos.
-"""
 import time
 import pytest
 import pandas as pd
@@ -12,7 +8,6 @@ from src.relatorios.gerador_relatorio import GeradorRelatorio
 
 
 def _gerar_matriz_sintetica(n: int) -> pd.DataFrame:
-    """Gera um DataFrame LCI sintético com n processos para testes de carga."""
     return pd.DataFrame({
         "processo": [f"Processo_{i:03d}" for i in range(n)],
         "energia_solar_sej": [1.5e15] * n,
@@ -21,11 +16,9 @@ def _gerar_matriz_sintetica(n: int) -> pd.DataFrame:
         "produto": [f"produto_{i}" for i in range(n)],
     })
 
-
 class TestDesempenho:
 
     def test_td01_100_processos_dentro_do_limite_de_5_segundos(self):
-        """TD01 — RNF01: 100 processos calculados em no máximo 5 s."""
         matriz = _gerar_matriz_sintetica(100)
         solver = SolverEmergia(matriz, {})
 
@@ -39,7 +32,6 @@ class TestDesempenho:
         )
 
     def test_td02_50_processos_abaixo_de_2_segundos(self):
-        """TD02 — Desempenho confortável: 50 processos em menos de 2 s."""
         matriz = _gerar_matriz_sintetica(50)
         solver = SolverEmergia(matriz, {})
 
@@ -52,7 +44,6 @@ class TestDesempenho:
         )
 
     def test_td03_carregamento_csv_100_linhas_abaixo_de_3_segundos(self, tmp_path):
-        """TD03 — Leitura e validação de CSV com 100 processos em menos de 3 s."""
         csv = tmp_path / "grande.csv"
         linhas = [
             "processo,energia_solar_sej,energia_quimica_sej,biomassa_sej,produto"
@@ -76,7 +67,6 @@ class TestDesempenho:
     def test_td04_geracao_de_relatorio_100_processos_abaixo_de_5_segundos(
         self, tmp_path
     ):
-        """TD04 — Geração do relatório PDF com 100 processos em menos de 5 s."""
         resultados = {
             f"Processo_{i:03d}": 1.5e15 * (i + 1) for i in range(100)
         }
@@ -91,7 +81,6 @@ class TestDesempenho:
         )
 
     def test_td05_calculo_multiplas_execucoes_consistente(self):
-        """TD05 — Resultados idênticos em 10 execuções consecutivas (determinismo)."""
         matriz = _gerar_matriz_sintetica(20)
         referencia = SolverEmergia(matriz.copy(), {}).calcular()
 

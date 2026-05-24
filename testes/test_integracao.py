@@ -1,11 +1,6 @@
-"""
-Testes de integração — Seção 8.3 do rascunho SCALE-BR.
-Validam o fluxo completo entre os módulos: LCI → Solver → Relatório.
-"""
 import json
 import os
 import pytest
-import pandas as pd
 
 from src.dados.matriz_lci import MatrizLCI
 from src.solver.solver_emergia import SolverEmergia
@@ -15,7 +10,6 @@ from src.relatorios.gerador_relatorio import GeradorRelatorio
 
 @pytest.fixture
 def csv_padrao(tmp_path):
-    """CSV com três processos válidos reutilizado por vários testes."""
     csv = tmp_path / "lci.csv"
     csv.write_text(
         "processo,energia_solar_sej,energia_quimica_sej,biomassa_sej,produto\n"
@@ -31,7 +25,6 @@ class TestIntegracao:
     def test_ti01_fluxo_completo_importacao_calculo_relatorio(
         self, tmp_path, csv_padrao
     ):
-        """TI01 — Fluxo ponta a ponta: importação → cálculo → geração de PDF."""
         # Importação
         matriz = MatrizLCI(str(csv_padrao))
         assert matriz.carregar() is True
@@ -53,7 +46,6 @@ class TestIntegracao:
     def test_ti02_transformadores_modificam_resultado_integrado(
         self, tmp_path, csv_padrao
     ):
-        """TI02 — Transformadores emergéticos propagam corretamente pelo solver."""
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
         df = matriz.obter_matriz()
@@ -66,7 +58,6 @@ class TestIntegracao:
         )
 
     def test_ti03_validacao_bloqueia_calculo_com_dados_invalidos(self, tmp_path):
-        """TI03 — Matriz inválida é rejeitada antes de chegar ao solver."""
         csv = tmp_path / "invalido.csv"
         csv.write_text(
             "processo,energia_solar_sej\n"
@@ -78,7 +69,6 @@ class TestIntegracao:
     def test_ti04_ciclo_salvar_carregar_preserva_resultados(
         self, tmp_path, csv_padrao
     ):
-        """TI04 — Projeto salvo em JSON e recarregado mantém integridade dos dados."""
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
         solver = SolverEmergia(matriz.obter_matriz(), {"Agricultura": 1.5})
@@ -104,25 +94,20 @@ class TestIntegracao:
         )
 
     def test_ti05_estrategias_injetadas_alteram_calculo(self, tmp_path, csv_padrao):
-        """TI05 — Substituição de estratégias GoF modifica resultado esperado."""
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
         df = matriz.obter_matriz()
 
-        # Apenas co-produto (sem feedback nem caminho múltiplo)
         solver_simples = SolverEmergia(df, {}, estrategias=[RegraCoProdutor()])
         resultado_simples = solver_simples.calcular()
 
-        # Pipeline completo padrão
         solver_completo = SolverEmergia(df, {})
         resultado_completo = solver_completo.calcular()
 
-        # O resultado completo deve ser maior ou igual ao simples (feedback expande)
         for processo in resultado_simples:
             assert resultado_completo[processo] >= resultado_simples[processo]
 
     def test_ti06_relatorio_contem_todos_processos(self, tmp_path, csv_padrao):
-        """TI06 — PDF gerado referencia o mesmo número de processos do cálculo."""
         matriz = MatrizLCI(str(csv_padrao))
         matriz.carregar()
         solver = SolverEmergia(matriz.obter_matriz(), {})
