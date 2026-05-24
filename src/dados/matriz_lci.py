@@ -2,12 +2,19 @@ import pandas as pd
 
 
 class MatrizLCI:
+
     COLUNAS_OBRIGATORIAS = [
         "processo",
         "energia_solar_sej",
         "energia_quimica_sej",
         "biomassa_sej",
-        "produto"
+        "produto",
+    ]
+
+    COLUNAS_NUMERICAS = [
+        "energia_solar_sej",
+        "energia_quimica_sej",
+        "biomassa_sej",
     ]
 
     def __init__(self, caminho_arquivo: str):
@@ -15,16 +22,15 @@ class MatrizLCI:
         self.dados_matriz = None
         self.lista_processos = []
 
-    def carregar(self):
+    def carregar(self) -> bool:
         try:
             if self.caminho_arquivo.endswith(".csv"):
                 self.dados_matriz = pd.read_csv(self.caminho_arquivo)
             elif self.caminho_arquivo.endswith((".xlsx", ".xls")):
                 self.dados_matriz = pd.read_excel(self.caminho_arquivo)
             else:
-                raise ValueError(
-                    f"Formato não suportado. Use CSV ou Excel."
-                )
+                raise ValueError("Formato não suportado. Use CSV ou Excel.")
+
             self.validar()
             self.lista_processos = self.dados_matriz["processo"].tolist()
             return True
@@ -33,15 +39,17 @@ class MatrizLCI:
             raise FileNotFoundError(
                 f"Arquivo não encontrado: {self.caminho_arquivo}"
             )
-        except ValueError as e:
-            raise ValueError(str(e))
+        except ValueError:
+            raise
         except Exception as e:
-            raise Exception(f"Erro ao carregar arquivo: {str(e)}")
+            raise RuntimeError(f"Erro inesperado ao carregar arquivo: {e}") from e
 
-    def validar(self):
-        """Valida a estrutura e os dados da matriz carregada."""
+    def validar(self) -> None:
         if self.dados_matriz is None:
             raise ValueError("Nenhum dado carregado para validar.")
+
+        if len(self.dados_matriz) == 0:
+            raise ValueError("A matriz não contém nenhum processo.")
 
         colunas_ausentes = [
             col for col in self.COLUNAS_OBRIGATORIAS
@@ -52,21 +60,11 @@ class MatrizLCI:
                 f"Colunas obrigatórias ausentes: {', '.join(colunas_ausentes)}"
             )
 
-        colunas_numericas = [
-            "energia_solar_sej",
-            "energia_quimica_sej",
-            "biomassa_sej"
-        ]
-        for coluna in colunas_numericas:
+        for coluna in self.COLUNAS_NUMERICAS:
             if self.dados_matriz[coluna].isnull().any():
                 raise ValueError(
                     f"A coluna '{coluna}' contém valores nulos."
                 )
-
-        if len(self.dados_matriz) == 0:
-            raise ValueError("A matriz não contém nenhum processo.")
-
-        for coluna in colunas_numericas:
             if (self.dados_matriz[coluna] < 0).any():
                 raise ValueError(
                     f"A coluna '{coluna}' contém valores negativos inválidos."
@@ -83,12 +81,9 @@ class MatrizLCI:
         if self.dados_matriz is None:
             return "Nenhum dado carregado."
 
-        total_processos = len(self.dados_matriz)
-        total_colunas = len(self.dados_matriz.columns)
         processos = ", ".join(self.lista_processos)
-
         return (
-            f"Processos carregados : {total_processos}\n"
-            f"Colunas identificadas: {total_colunas}\n"
+            f"Processos carregados : {len(self.dados_matriz)}\n"
+            f"Colunas identificadas: {len(self.dados_matriz.columns)}\n"
             f"Processos            : {processos}"
         )
