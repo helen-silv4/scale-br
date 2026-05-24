@@ -7,11 +7,6 @@ CAMINHO_ICONE = os.path.join(
 
 
 class TelaSplash:
-    """
-    Padrão GoF: Singleton — garante uma única instância da tela de splash
-    durante a inicialização. Apresenta logo, nome do sistema e indicador
-    de progresso enquanto a janela principal é carregada em segundo plano.
-    """
 
     _instancia = None
 
@@ -33,9 +28,6 @@ class TelaSplash:
         self.janela.title("SCALE-BR")
         self.janela.overrideredirect(True)
         self.janela.attributes("-topmost", True)
-        # CTkToplevel define seu ícone padrão via after_idle (~200ms);
-        # aplicamos o nosso depois para que apareça na barra de tarefas
-        # e em Alt+Tab.
         self.janela.after(300, self._aplicar_icone)
 
         largura, altura = 540, 340
@@ -105,7 +97,6 @@ class TelaSplash:
             pass
 
     def exibir(self):
-        """Agenda o fechamento automático e devolve o controle ao mainloop."""
         self.janela.after(self.duracao_ms, self._fechar)
 
     def _fechar(self):

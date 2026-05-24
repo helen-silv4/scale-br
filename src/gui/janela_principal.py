@@ -22,9 +22,6 @@ ctk.set_default_color_theme("blue")
 
 
 class JanelaPrincipal:
-    """
-    Padrão GoF: Singleton — garante uma única instância da janela principal.
-    """
 
     _instancia = None
 
@@ -110,8 +107,6 @@ class JanelaPrincipal:
         self._construir_area_visualizacao(self.frame_principal)   # RF04
         self._construir_area_exportacao(self.frame_principal)
 
-    # ── Seção 1: Importação ──────────────────────────────────────────
-
     def _alternar_tema(self):
         """Alterna entre modo escuro e claro e atualiza rótulo e gráfico."""
         self.modo_escuro = not self.modo_escuro
@@ -121,7 +116,6 @@ class JanelaPrincipal:
         else:
             ctk.set_appearance_mode("light")
             self.btn_tema.configure(text="🌙  Modo escuro")
-        # Redesenha o gráfico com as cores do novo tema
         if self.secao_resultados_visivel:
             self.janela.after_idle(self._atualizar_grafico)
 
@@ -171,8 +165,6 @@ class JanelaPrincipal:
         )
         self.txt_resumo.pack(fill="x", padx=15, pady=(5, 15))
         self.txt_resumo.configure(state="disabled")
-
-    # ── Seção 2: Transformadores ─────────────────────────────────────
 
     def _construir_area_transformadores(self, pai):
         self.frame_transformadores = ctk.CTkFrame(pai, corner_radius=10)
@@ -302,11 +294,8 @@ class JanelaPrincipal:
 
             self.campos_transformadores[processo] = entrada
 
-    # ── Seção 3: Resultados ──────────────────────────────────────────
-
     def _construir_area_resultados(self, pai):
         self.frame_resultados = ctk.CTkFrame(pai, corner_radius=10)
-        # Oculto até o primeiro cálculo ser executado
         self.frame_resultados.pack_forget()
 
         ctk.CTkLabel(
@@ -321,12 +310,8 @@ class JanelaPrincipal:
         self.txt_resultados.pack(fill="both", expand=True, padx=15, pady=(0, 15))
         self.txt_resultados.configure(state="disabled")
 
-    # ── Seção 4: Visualização de Fluxos (RF04) ───────────────────────
-
     def _construir_area_visualizacao(self, pai):
-        """RF04 — Exibição gráfica dos fluxos de emergia por processo."""
         self.frame_visualizacao = ctk.CTkFrame(pai, corner_radius=10)
-        # Oculto até o primeiro cálculo ser executado
         self.frame_visualizacao.pack_forget()
 
         ctk.CTkLabel(
@@ -341,23 +326,20 @@ class JanelaPrincipal:
         self.frame_grafico.pack(fill="both", expand=True, padx=15, pady=(0, 15))
 
     def _revelar_secoes_resultado(self):
-        """Exibe as seções 3 e 4 e habilita o scroll na primeira execução."""
         if not self.secao_resultados_visivel:
             self.frame_resultados.pack(fill="both", expand=True, pady=8, before=self.frame_exportacao)
             self.frame_visualizacao.pack(fill="both", expand=True, pady=8, before=self.frame_exportacao)
-            # Expande a janela ao revelar resultados e gráfico
+
             self.janela.geometry("1180x980")
             self.secao_resultados_visivel = True
 
     def _atualizar_grafico(self):
-        """Renderiza o gráfico de barras adaptado ao tema atual (claro ou escuro)."""
         if not self.solver or not self.solver.resultados:
             return
 
         processos = list(self.solver.resultados.keys())
         valores = list(self.solver.resultados.values())
 
-        # Paleta adaptada ao tema
         if self.modo_escuro:
             cor_fundo   = "#2b2b2b"
             cor_area    = "#333333"
@@ -400,8 +382,6 @@ class JanelaPrincipal:
         plt.xticks(rotation=15, ha="right")
         fig.tight_layout()
         self.canvas_grafico.draw_idle()
-
-    # ── Seção 5: Exportação ──────────────────────────────────────────
 
     def _construir_area_exportacao(self, pai):
         self.frame_exportacao = ctk.CTkFrame(pai, corner_radius=10)
@@ -448,10 +428,7 @@ class JanelaPrincipal:
             font=ctk.CTkFont(size=15),
         ).pack(side="left")
 
-    # ── Métodos de ação ──────────────────────────────────────────────
-
     def _limpar_projeto(self):
-        """Invocador do padrão Command: delega o reset a ComandoLimparProjeto."""
         ComandoLimparProjeto(self).executar()
 
     def importar_lci(self):
