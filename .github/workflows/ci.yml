@@ -33,9 +33,7 @@ jobs:
       - name: Rodar testes com cobertura
         run: |
           pytest testes/ --cov=src --cov-report=term-missing -v
-        continue-on-error: true
 
-      # Ativado após implementação dos testes automatizados
-      # - name: Verificar cobertura mínima de 70%
-      #   run: |
-      #     pytest testes/ --cov=src --cov-fail-under=70
+      - name: Verificar cobertura mínima de 70%
+        run: |
+          pytest testes/ --cov=src --cov-fail-under=70
