@@ -1,0 +1,5 @@
+processo,energia_solar_sej,energia_quimica_sej,biomassa_sej,produto
+Agricultura,1.50e+15,2.30e+14,8.70e+14,graos
+Transporte,3.20e+14,9.10e+13,0,combustivel
+Industria,6.80e+15,1.40e+15,2.10e+14,manufaturado
+Tratamento,2.90e+14,4.50e+13,1.20e+14,agua_tratada
