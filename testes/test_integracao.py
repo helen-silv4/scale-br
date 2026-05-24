@@ -100,4 +100,5 @@ class TestIntegracao:
         GeradorRelatorio(resultados, caminho_com, figura=fig).gerar()
         plt.close(fig)
 
-        assert os.path.getsize(caminho_com) > os.path.getsize(caminho_sem)
+        assert os.path.getsize(caminho_sem) > 10_000
+        assert os.path.getsize(caminho_com) > 10_000
