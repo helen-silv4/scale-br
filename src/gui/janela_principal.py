@@ -1,8 +1,9 @@
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
+from src.dados.matriz_lci import MatrizLCI
 
 
-ctk.set_appearance_mode("light")
+ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
 
@@ -179,9 +180,14 @@ class JanelaPrincipal:
                        ("Excel", "*.xlsx *.xls")]
         )
         if caminho:
-            self.caminho_arquivo = caminho
-            self.lbl_arquivo.configure(text=caminho, text_color="white")
-            self._exibir_resumo(f"Arquivo carregado: {caminho}\nAguardando execução do cálculo...")
+            try:
+                self.matriz = MatrizLCI(caminho)
+                self.matriz.carregar()
+                self.caminho_arquivo = caminho
+                self.lbl_arquivo.configure(text=caminho, text_color="white")
+                self._exibir_resumo(self.matriz.obter_resumo())
+            except Exception as e:
+                messagebox.showerror("Erro ao carregar arquivo", str(e))
 
     def executar_calculo(self):
         if not self.caminho_arquivo:

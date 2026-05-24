@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8def02e2-1c7c-4e76-91d3-59f3c797540c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/janela_principal.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/janela_principal.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,18 +30,18 @@
       <entry key="S2" value="1.0" />
       <entry key="S5" value="1.0" />
       <entry key="S10" value="1.0" />
-      <entry key="S30" value="1.0" />
-      <entry key="S60" value="1.0" />
-      <entry key="M2" value="1.0" />
-      <entry key="M5" value="1.0" />
-      <entry key="M10" value="1.0" />
-      <entry key="M15" value="1.0" />
-      <entry key="M30" value="1.0" />
-      <entry key="H1" value="1.0" />
-      <entry key="H2" value="1.0" />
-      <entry key="H4" value="1.0" />
-      <entry key="D1" value="1.0" />
-      <entry key="W1" value="1.0" />
+      <entry key="S30" value="1.0000006945165398" />
+      <entry key="S60" value="1.0012064614378737" />
+      <entry key="M2" value="1.0572026917906292" />
+      <entry key="M5" value="1.6082930889508704" />
+      <entry key="M10" value="2.3483218562731247" />
+      <entry key="M15" value="2.759500430819659" />
+      <entry key="M30" value="3.297026735082302" />
+      <entry key="H1" value="3.624952726298945" />
+      <entry key="H2" value="3.806182088952782" />
+      <entry key="H4" value="3.9014639129515167" />
+      <entry key="D1" value="3.983346632704518" />
+      <entry key="W1" value="3.997615235810356" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -64,29 +63,29 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.10806715391348314" />
-      <entry key="MS500" value="0.6408239620800965" />
-      <entry key="S2" value="0.8947149326217277" />
-      <entry key="S5" value="0.9564755532340186" />
-      <entry key="S10" value="0.9779956816029499" />
-      <entry key="S30" value="0.9926107608317578" />
-      <entry key="S60" value="0.9962985299757086" />
-      <entry key="M2" value="0.9981475492008727" />
-      <entry key="M5" value="0.9992586074841464" />
-      <entry key="M10" value="0.9996292350087338" />
-      <entry key="M15" value="0.999752808062563" />
-      <entry key="M30" value="0.9998763963923556" />
-      <entry key="H1" value="0.9999381962863283" />
-      <entry key="H2" value="0.999969097665687" />
-      <entry key="H4" value="0.9999845487134724" />
-      <entry key="D1" value="0.9999974247689992" />
-      <entry key="W1" value="0.999999632109451" />
+      <entry key="MS100" value="0.23651441168139894" />
+      <entry key="MS500" value="0.7494998008777737" />
+      <entry key="S2" value="0.9304496577030154" />
+      <entry key="S5" value="0.9715768364992896" />
+      <entry key="S10" value="0.9856859725588518" />
+      <entry key="S30" value="0.9952064028955834" />
+      <entry key="S60" value="0.9988051641701858" />
+      <entry key="M2" value="1.0559600369381912" />
+      <entry key="M5" value="1.607603970401643" />
+      <entry key="M10" value="2.3478396194458755" />
+      <entry key="M15" value="2.7591266953174176" />
+      <entry key="M30" value="3.296805281636315" />
+      <entry key="H1" value="3.624831353367486" />
+      <entry key="H2" value="3.8061184473016705" />
+      <entry key="H4" value="3.9014313135207397" />
+      <entry key="D1" value="3.983341087793117" />
+      <entry key="W1" value="3.997614440898159" />
     </decayedShown>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3E8oLTs45YXH4teT6DBDlfVm3mR" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -105,7 +104,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "develop",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -130,7 +129,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1779569501891</updated>
-      <workItem from="1779569502900" duration="2826000" />
+      <workItem from="1779569502900" duration="3504000" />
+      <workItem from="1779584602409" duration="1126000" />
     </task>
     <servers />
   </component>
@@ -150,6 +150,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/scale_br$janela_principal.coverage" NAME="janela_principal Coverage Results" MODIFIED="1779571940912" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gui" />
-    <SUITE FILE_PATH="coverage/scale_br$main.coverage" NAME="main Coverage Results" MODIFIED="1779571948164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/scale_br$main.coverage" NAME="main Coverage Results" MODIFIED="1779585612488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
