@@ -1,0 +1,7 @@
+[run]
+omit =
+    src/gui/*
+
+[report]
+omit =
+    src/gui/*
