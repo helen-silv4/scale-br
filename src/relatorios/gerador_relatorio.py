@@ -10,7 +10,6 @@ class GeradorRelatorio:
         self.pdf = FPDF()
 
     def gerar(self):
-        """Orquestra a geração completa do relatório em PDF."""
         self.pdf = FPDF()
         self.pdf.set_auto_page_break(auto=True, margin=15)
         self.pdf.add_page()
@@ -23,7 +22,6 @@ class GeradorRelatorio:
         self.exportar_pdf()
 
     def _gerar_cabecalho(self):
-        """Gera o cabeçalho do relatório."""
         self.pdf.set_font("Helvetica", style="B", size=16)
         self.pdf.cell(0, 10, "SCALE-BR", ln=True, align="C")
 
@@ -41,7 +39,6 @@ class GeradorRelatorio:
         self.pdf.ln(8)
 
     def _gerar_informacoes(self):
-        """Gera o bloco de informações da análise."""
         self.pdf.set_font("Helvetica", style="B", size=12)
         self.pdf.cell(0, 8, "Informacoes da Analise", ln=True)
         self.pdf.ln(2)
@@ -55,19 +52,16 @@ class GeradorRelatorio:
         self.pdf.ln(6)
 
     def _gerar_tabela_resultados(self):
-        """Gera a tabela com os resultados de emergia por processo."""
         self.pdf.set_font("Helvetica", style="B", size=12)
         self.pdf.cell(0, 8, "Resultados do Calculo de Emergia", ln=True)
         self.pdf.ln(3)
 
-        # Cabeçalho da tabela
         self.pdf.set_fill_color(0, 102, 204)
         self.pdf.set_text_color(255, 255, 255)
         self.pdf.set_font("Helvetica", style="B", size=10)
         self.pdf.cell(90, 9, "Processo", border=1, fill=True)
         self.pdf.cell(100, 9, "Emergia Total (sej)", border=1, fill=True, ln=True)
 
-        # Linhas da tabela
         self.pdf.set_text_color(0, 0, 0)
         self.pdf.set_font("Helvetica", size=10)
 
@@ -79,7 +73,6 @@ class GeradorRelatorio:
 
         self.pdf.ln(6)
 
-        # Total
         total = sum(self.resultados.values())
         self.pdf.set_font("Helvetica", style="B", size=10)
         self.pdf.set_fill_color(0, 102, 204)
@@ -89,7 +82,6 @@ class GeradorRelatorio:
         self.pdf.set_text_color(0, 0, 0)
 
     def _gerar_rodape(self):
-        """Gera o rodapé do relatório."""
         self.pdf.ln(10)
         self.pdf.set_draw_color(0, 102, 204)
         self.pdf.set_line_width(0.5)
@@ -105,5 +97,4 @@ class GeradorRelatorio:
         )
 
     def exportar_pdf(self):
-        """Exporta o PDF para o caminho definido."""
         self.pdf.output(self.caminho_saida)

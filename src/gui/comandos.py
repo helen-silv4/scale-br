@@ -2,24 +2,11 @@ from abc import ABC, abstractmethod
 
 
 class Comando(ABC):
-    """
-    Padrão GoF: Command — encapsula uma operação da interface como objeto,
-    desacoplando o invocador (botão) da implementação concreta e permitindo
-    extensões futuras (histórico, desfazer, registro de auditoria).
-    """
-
     @abstractmethod
     def executar(self) -> None:
         ...
 
-
 class ComandoLimparProjeto(Comando):
-    """
-    Retorna a interface ao estado inicial: descarta o arquivo LCI importado,
-    os transformadores informados e os resultados calculados, e oculta as
-    seções dependentes (Resultados e Visualização).
-    """
-
     def __init__(self, janela):
         self.janela = janela
 
