@@ -52,6 +52,8 @@ class JanelaPrincipal:
         self.relatorio = None
         self.campos_transformadores = {}
         self.canvas_grafico = None
+        self.figura_grafico = None
+        self.eixo_grafico = None
         self.secao_resultados_visivel = False
         self.modo_escuro = False
 
@@ -121,7 +123,7 @@ class JanelaPrincipal:
             self.btn_tema.configure(text="🌙  Modo escuro")
         # Redesenha o gráfico com as cores do novo tema
         if self.secao_resultados_visivel:
-            self._atualizar_grafico()
+            self.janela.after_idle(self._atualizar_grafico)
 
     def _construir_area_importacao(self, pai):
         frame = ctk.CTkFrame(pai, corner_radius=10)
@@ -349,10 +351,6 @@ class JanelaPrincipal:
 
     def _atualizar_grafico(self):
         """Renderiza o gráfico de barras adaptado ao tema atual (claro ou escuro)."""
-        if self.canvas_grafico:
-            self.canvas_grafico.get_tk_widget().destroy()
-            self.canvas_grafico = None
-
         if not self.solver or not self.solver.resultados:
             return
 
@@ -375,7 +373,17 @@ class JanelaPrincipal:
             cor_barra   = "#1f6aa5"
             cor_borda   = "#145280"
 
-        fig, ax = plt.subplots(figsize=(8, 3.5))
+        if self.figura_grafico is None or self.eixo_grafico is None:
+            self.figura_grafico, self.eixo_grafico = plt.subplots(figsize=(8, 3.5))
+            self.canvas_grafico = FigureCanvasTkAgg(
+                self.figura_grafico, master=self.frame_grafico
+            )
+            self.canvas_grafico.get_tk_widget().pack(fill="both", expand=True)
+
+        fig = self.figura_grafico
+        ax = self.eixo_grafico
+        ax.clear()
+
         fig.patch.set_facecolor(cor_fundo)
         ax.set_facecolor(cor_area)
 
@@ -390,12 +398,8 @@ class JanelaPrincipal:
             spine.set_edgecolor(cor_grade)
         ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{x:.2e}"))
         plt.xticks(rotation=15, ha="right")
-        plt.tight_layout()
-
-        self.canvas_grafico = FigureCanvasTkAgg(fig, master=self.frame_grafico)
-        self.canvas_grafico.draw()
-        self.canvas_grafico.get_tk_widget().pack(fill="both", expand=True)
-        plt.close(fig)
+        fig.tight_layout()
+        self.canvas_grafico.draw_idle()
 
     # ── Seção 5: Exportação ──────────────────────────────────────────
 
