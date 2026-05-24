@@ -57,6 +57,10 @@ class ComandoLimparProjeto(Comando):
         if j.canvas_grafico:
             j.canvas_grafico.get_tk_widget().destroy()
             j.canvas_grafico = None
+        if j.figura_grafico:
+            j.figura_grafico.clear()
+            j.figura_grafico = None
+            j.eixo_grafico = None
         j.frame_visualizacao.pack_forget()
         j.secao_resultados_visivel = False
 
