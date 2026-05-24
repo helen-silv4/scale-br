@@ -117,8 +117,8 @@ Arquivo de referência: [`docs/matriz_lci_exemplo.csv`](docs/matriz_lci_exemplo.
 scale-br/
 ├── main.py                         # Ponto de entrada da aplicação
 ├── assets/
-│   ├── scale_br.ico                # Ícone da aplicação
-│   └── gerar_icone.py              # Script para regenerar o ícone
+│   ├── preview.gif                 # Gif de preview da interface
+│   └── scale_br.ico                # Ícone da aplicação
 ├── docs/
 │   └── matriz_lci_exemplo.csv      # Matriz LCI de exemplo
 ├── src/
