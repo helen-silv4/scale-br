@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pandas as pd
 
 from src.solver.estrategias_emergia import (
@@ -7,6 +9,12 @@ from src.solver.estrategias_emergia import (
     RegraCaminhoMultiplo,
 )
 
+_ESTRATEGIAS_PADRAO = [
+    RegraCoProdutor(),
+    RegraFeedback(),
+    RegraCaminhoMultiplo(),
+]
+
 
 class SolverEmergia:
 
@@ -14,28 +22,24 @@ class SolverEmergia:
         self,
         matriz: pd.DataFrame,
         transformadores: dict,
-        estrategias: list[EstrategiaEmergia] = None,
+        estrategias: list[EstrategiaEmergia] | None = None,
     ):
         self.matriz = matriz
         self.transformadores = transformadores
-        self.resultados = {}
-        self.estrategias: list[EstrategiaEmergia] = estrategias or [
-            RegraCoProdutor(),
-            RegraFeedback(),
-            RegraCaminhoMultiplo(),
-        ]
+        self.resultados: dict[str, float] = {}
+        self.estrategias = estrategias if estrategias is not None else _ESTRATEGIAS_PADRAO
 
-    def calcular(self) -> dict:
+    def calcular(self) -> dict[str, float]:
         self.resultados = {}
 
         for _, linha in self.matriz.iterrows():
             processo = linha["processo"]
-            emergia_solar = linha["energia_solar_sej"]
-            emergia_quimica = linha["energia_quimica_sej"]
-            emergia_biomassa = linha["biomassa_sej"]
-
+            emergia_base = (
+                linha["energia_solar_sej"]
+                + linha["energia_quimica_sej"]
+                + linha["biomassa_sej"]
+            )
             transformador = self.transformadores.get(processo, 1.0)
-            emergia_base = emergia_solar + emergia_quimica + emergia_biomassa
 
             emergia = emergia_base
             for estrategia in self.estrategias:
@@ -64,9 +68,9 @@ class SolverEmergia:
         if not self.resultados:
             return "Nenhum resultado calculado. Execute calcular() primeiro."
 
-        linhas = ["Resultados do Cálculo de Emergia", "=" * 45]
+        separador = "=" * 45
+        linhas = ["Resultados do Cálculo de Emergia", separador]
         for processo, emergia in self.resultados.items():
             linhas.append(f"{processo:<20} {emergia:.4e} sej")
-        linhas.append("=" * 45)
-        linhas.append(f"Total de processos analisados: {len(self.resultados)}")
+        linhas += [separador, f"Total de processos analisados: {len(self.resultados)}"]
         return "\n".join(linhas)
