@@ -579,7 +579,7 @@ class JanelaPrincipal:
 
             for processo, valor in projeto["transformadores"].items():
                 if processo in self.campos_transformadores:
-                    self.campos_transformadores[processo].insert(0, str(valor))
+                    self.campos_transformadores[processo].insert(0, f"{float(valor):.2e}")
 
             if projeto["resultados"]:
                 self.solver = SolverEmergia(
