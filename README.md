@@ -1,8 +1,26 @@
 <h1 align="center">SCALE-BR</h1>
 
-**Sistema desktop para cálculo de emergia a partir de Inventários do Ciclo de Vida (LCI).**
+<p align="center">
+  <strong>Sistema desktop para cálculo de emergia a partir de Inventários do Ciclo de Vida (LCI).</strong>
+</p>
 
-O SCALE-BR permite importar matrizes LCI, aplicar as regras da álgebra emergética, visualizar os fluxos de emergia por processo e exportar relatórios em PDF com gráfico embutido. A interface gráfica foi desenvolvida em CustomTkinter e oferece alternância entre tema claro e escuro.
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.14%2B-blue?logo=python&logoColor=white">
+  <img alt="CustomTkinter" src="https://img.shields.io/badge/GUI-CustomTkinter-1f6aa5">
+  <img alt="Cobertura" src="https://img.shields.io/badge/cobertura-90%25-brightgreen">
+  <img alt="CI" src="https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=github-actions&logoColor=white">
+  <img alt="Licença" src="https://img.shields.io/badge/APS-Engenharia%20de%20Software-orange">
+</p>
+
+<br>
+
+> **Atividade Prática Supervisionada (APS)** - Disciplina de Engenharia de Software  
+> Curso de Ciência da Computação - 7º Semestre - UNIP - 2026  
+> Professor: Claudio Boghi  
+
+<br>
+
+O SCALE-BR é inspirado no software SCALE (Marvuglia et al., 2013) e permite importar matrizes LCI, aplicar as regras da álgebra emergética, visualizar os fluxos de emergia por processo e exportar relatórios em PDF com gráfico embutido. A interface gráfica foi desenvolvida em CustomTkinter e oferece alternância entre tema claro e escuro.
 
 ## 🌱 O que o projeto faz
 
@@ -24,9 +42,10 @@ O SCALE-BR permite importar matrizes LCI, aplicar as regras da álgebra emergét
 
 ## 🛠️ Requisitos
 
-- Python **3.10 ou superior**
+- Python **3.14 ou superior** (desenvolvido e testado em Python 3.14.4)
 - Windows, macOS ou Linux
 - Dependências listadas em [`requirements.txt`](requirements.txt)
+- **IDE recomendada:** PyCharm (Community ou Professional)
 
 <br>
 
@@ -55,6 +74,8 @@ Instale os pacotes:
 ```bash
 pip install -r requirements.txt
 ```
+
+> **PyCharm:** abra a pasta `scale-br/` como projeto, configure o interpretador para o `.venv` criado acima em *File → Settings → Project → Python Interpreter* e o ambiente estará pronto.
 
 <br>
 
@@ -123,6 +144,9 @@ scale-br/
 ├── main.py                          # Ponto de entrada da aplicação
 ├── pytest.ini                       # Configuração do pytest e cobertura
 ├── .coveragerc                      # Exclusão da GUI da cobertura de testes
+├── .github/
+│   └── workflows/
+│       └── ci.yml                   # Pipeline de CI com GitHub Actions
 ├── assets/
 │   ├── preview.gif                  # GIF de demonstração da interface
 │   └── scale_br.ico                 # Ícone da aplicação
@@ -164,7 +188,7 @@ scale-br/
 
 ## 🧪 Testes
 
-O conjunto de testes cobre validação de dados, regras de cálculo, geração de PDF com e sem gráfico, integração ponta a ponta e desempenho. A cobertura atual é de **90%**.
+O conjunto de testes cobre validação de dados, regras de cálculo, geração de PDF com e sem gráfico, integração ponta a ponta e desempenho. A cobertura atual é de **90%** nos módulos de domínio e infraestrutura — a camada `src/gui/` é excluída da contagem via `.coveragerc` por depender de interação humana e ambiente gráfico.
 
 ```bash
 # Executar todos os testes
@@ -172,6 +196,9 @@ pytest
 
 # Executar com relatório de cobertura detalhado
 pytest --cov=src --cov-report=term-missing
+
+# Executar apenas os testes de desempenho
+pytest testes/test_desempenho.py -v --durations=6
 ```
 
 | Arquivo | O que cobre |
@@ -185,16 +212,54 @@ pytest --cov=src --cov-report=term-missing
 
 <br>
 
-## 🛠️ Tecnologias
+## ⚙️ Integração Contínua
 
-| Biblioteca | Uso |
+O projeto usa **GitHub Actions** para rodar os testes automaticamente a cada `push` nas branches `main`, `develop` e `feature/**`, e a cada PR direcionado a `main` ou `develop`. A execução verifica cobertura mínima de 70% a cada rodada.
+
+```
+.github/workflows/ci.yml
+└── Job: testes
+    ├── ubuntu-latest / Python 3.11
+    ├── pip install -r requirements.txt
+    ├── pytest testes/ --cov=src --cov-report=term-missing -v
+    └── pytest testes/ --cov=src --cov-fail-under=70
+```
+
+<br>
+
+## 🔀 Controle de versão
+
+O repositório segue a convenção **[Conventional Commits](https://www.conventionalcommits.org)** para mensagens de commit, garantindo rastreabilidade completa das alterações:
+
+```
+feat: adiciona geração de relatório PDF com gráfico embutido
+fix: corrige validação de valores negativos na MatrizLCI
+test: adiciona testes de desempenho TD01-TD06
+docs: atualiza README com instruções de instalação
+refactor: extrai estratégias emergéticas para classes separadas
+```
+
+Branches utilizadas:
+- `main` — versão estável entregue
+- `develop` — integração de funcionalidades
+- `feature/*` — desenvolvimento de cada funcionalidade isolada
+
+<br>
+
+## 🛠️ Tecnologias e ferramentas
+
+| Ferramenta / Biblioteca | Uso |
 |---|---|
+| **Python 3.14** | Linguagem de desenvolvimento |
+| **PyCharm** | IDE principal de desenvolvimento |
 | **CustomTkinter** | Interface gráfica moderna com suporte a tema claro/escuro |
 | **pandas** | Leitura e validação da matriz LCI em CSV e Excel |
 | **matplotlib** | Geração de gráficos de fluxo de emergia |
 | **fpdf2** | Geração de relatórios técnicos em PDF |
 | **Pillow** | Suporte a ícone e manipulação de imagens |
 | **pytest + pytest-cov** | Testes automatizados com relatório de cobertura |
+| **GitHub Actions** | Pipeline de integração contínua (CI) |
+| **Git** | Controle de versão com Conventional Commits |
 
 <br>
 
@@ -204,3 +269,12 @@ pytest --cov=src --cov-report=term-missing
 - O relatório PDF inclui automaticamente o gráfico de fluxos exibido na interface. Se o cálculo ainda não foi executado, um gráfico padrão é gerado.
 - Projetos salvos em JSON preservam o caminho do arquivo LCI, os transformadores configurados e os resultados calculados.
 - A GUI não é contabilizada na cobertura de testes pois depende de interação humana; os demais módulos atingem 90% de cobertura.
+
+<br>
+
+## 📚 Referências
+
+- MARVUGLIA, A. et al. SCALE: Software for CALculating Emergy based on Life Cycle Inventories. *Ecological Modelling*, v. 248, p. 80–91, 2013.
+- ODUM, H. T. *Environmental Accounting: Emergy and Environmental Decision Making*. New York: Wiley, 1996.
+- SOMMERVILLE, I. *Engenharia de Software*. 10. ed. São Paulo: Pearson, 2019.
+- GAMMA, E. et al. *Padrões de Projeto*. Porto Alegre: Bookman, 1994.
