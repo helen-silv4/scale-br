@@ -15,7 +15,7 @@
 <br>
 
 > **Atividade Prática Supervisionada (APS)** - Disciplina de Engenharia de Software  
-> Curso de Ciência da Computação - 7º Semestre - UNIP - 2026  
+> Curso Ciência da Computação - 7º Semestre - UNIP - 2026  
 > Professor: Claudio Boghi  
 
 <br>
@@ -74,8 +74,6 @@ Instale os pacotes:
 ```bash
 pip install -r requirements.txt
 ```
-
-> **PyCharm:** abra a pasta `scale-br/` como projeto, configure o interpretador para o `.venv` criado acima em *File → Settings → Project → Python Interpreter* e o ambiente estará pronto.
 
 <br>
 
@@ -188,7 +186,7 @@ scale-br/
 
 ## 🧪 Testes
 
-O conjunto de testes cobre validação de dados, regras de cálculo, geração de PDF com e sem gráfico, integração ponta a ponta e desempenho. A cobertura atual é de **90%** nos módulos de domínio e infraestrutura — a camada `src/gui/` é excluída da contagem via `.coveragerc` por depender de interação humana e ambiente gráfico.
+O conjunto de testes cobre validação de dados, regras de cálculo, geração de PDF com e sem gráfico, integração ponta a ponta e desempenho. A cobertura atual é de 90%.
 
 ```bash
 # Executar todos os testes
@@ -214,7 +212,7 @@ pytest testes/test_desempenho.py -v --durations=6
 
 ## ⚙️ Integração Contínua
 
-O projeto usa **GitHub Actions** para rodar os testes automaticamente a cada `push` nas branches `main`, `develop` e `feature/**`, e a cada PR direcionado a `main` ou `develop`. A execução verifica cobertura mínima de 70% a cada rodada.
+O projeto usa **GitHub Actions** para rodar os testes automaticamente a cada `push` ou `pull request` nas branches `main`, `develop` e `feature/**`, exigindo cobertura mínima de 70%.
 
 ```
 .github/workflows/ci.yml
@@ -240,9 +238,9 @@ refactor: extrai estratégias emergéticas para classes separadas
 ```
 
 Branches utilizadas:
-- `main` — versão estável entregue
-- `develop` — integração de funcionalidades
-- `feature/*` — desenvolvimento de cada funcionalidade isolada
+- `main` - versão estável entregue
+- `develop` - integração de funcionalidades
+- `feature/*` - desenvolvimento de cada funcionalidade isolada
 
 <br>
 
